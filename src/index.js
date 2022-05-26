@@ -6,6 +6,9 @@ import store from './redux/store';
 
 import App from './components/App/App';
 
+// Gives users the ability to connect to socket.io
+const socket = io();
+
 ReactDOM.render(
   <Provider store={store}>
     <App />
