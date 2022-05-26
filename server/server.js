@@ -1,8 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 require('dotenv').config();
-
-const app = express();
+const app = require('express')();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
 
 const sessionMiddleware = require('./modules/session-middleware');
 const passport = require('./strategies/user.strategy');
@@ -30,7 +31,15 @@ app.use(express.static('build'));
 // App Set //
 const PORT = process.env.PORT || 5000;
 
+io.on('connection', (socket) => {
+  console.log('Connected');
+  
+  socket.on('chat message', msg => {
+    io.emit('chat message', msg);
+  });
+});
+
 /** Listen * */
-app.listen(PORT, () => {
+http.listen(PORT, () => {
   console.log(`Listening on port: ${PORT}`);
 });
