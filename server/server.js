@@ -32,8 +32,6 @@ app.use(express.static('build'));
 const PORT = process.env.PORT || 5000;
 
 io.on('connection', (socket) => {
-  console.log('Connected');
-  
   socket.on('chat message', msg => {
     io.emit('chat message', msg);
   });
